@@ -53,9 +53,9 @@ void Figure::MoveRight()
     }
 }
 
-void Figure::Draw()
+void Figure::Draw(QPixmap *field_pix)
 {
-    QPainter qp(game_window);
+    QPainter qp(field_pix);
 
     for (int i = 0; i < 4; ++i)
     {
@@ -63,6 +63,7 @@ void Figure::Draw()
 
         QPen pen;
         pen.setWidth(3);
+        pen.setColor(Qt::black);
         qp.setPen(pen);
         qp.drawRect(figure_tiles[i].GetRect());
     }

@@ -15,13 +15,17 @@ class InfoField
 {
 public:
     InfoField(QMainWindow *game_window);
-    void Draw(FigureType next_figure, int score);
+    void Draw(QPixmap *next_fig_pix, FigureType next_figure, int score);
 
 private:
     QMainWindow *game_window;
-    void DrawStick();
-    void DrawBlock();
-    void DrawFigureLeftL();
+    void DrawStick(QPixmap *next_fig_pix);
+    void DrawBlock(QPixmap *next_fig_pix);
+    void DrawFigureRightL(QPixmap *next_fig_pix);
+    void DrawFigureLeftL(QPixmap *next_fig_pix);
+    void DrawFigureLeftZ(QPixmap *next_fig_pix);
+    void DrawFigureRightZ(QPixmap *next_fig_pix);
+    void DrawFigureT(QPixmap *next_fig_pix);
 };
 
 #endif // INFOFIELD_HPP

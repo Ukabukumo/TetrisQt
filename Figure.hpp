@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <QtMath>
+#include <QPixmap>
 
 #include "Tile.hpp"
 #include "GlobalParams.h"
@@ -18,7 +19,7 @@ public:
     void MoveUp();
     void MoveLeft();
     void MoveRight();
-    void Draw();
+    void Draw(QPixmap *field_pix);
     bool CollisionFloor();
     bool CollisionCeil();
     bool CollisionLeftSide();

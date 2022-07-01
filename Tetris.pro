@@ -12,6 +12,10 @@ SOURCES += \
     Block.cpp \
     Figure.cpp \
     FigureLeftL.cpp \
+    FigureLeftZ.cpp \
+    FigureRightL.cpp \
+    FigureRightZ.cpp \
+    FigureT.cpp \
     InfoField.cpp \
     Stick.cpp \
     Tile.cpp \
@@ -23,6 +27,10 @@ HEADERS += \
     Block.hpp \
     Figure.hpp \
     FigureLeftL.hpp \
+    FigureLeftZ.hpp \
+    FigureRightL.hpp \
+    FigureRightZ.hpp \
+    FigureT.hpp \
     GlobalParams.h \
     InfoField.hpp \
     MainWindow.hpp \

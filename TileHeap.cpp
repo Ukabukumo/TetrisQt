@@ -21,9 +21,9 @@ void TileHeap::SetFigure(Figure figure)
     CheckLines();
 }
 
-void TileHeap::Draw()
+void TileHeap::Draw(QPixmap *field_pix)
 {
-    QPainter qp(game_window);
+    QPainter qp(field_pix);
 
     for (Tile &tile : tile_heap)
     {

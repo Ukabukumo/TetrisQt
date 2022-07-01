@@ -5,50 +5,44 @@ InfoField::InfoField(QMainWindow *game_window)
     this->game_window = game_window;
 }
 
-void InfoField::Draw(FigureType next_figure, int score)
+void InfoField::Draw(QPixmap *next_fig_pix, FigureType next_figure, int score)
 {
     // Draw next figure
     switch (next_figure)
     {
         case STICK:
-            DrawStick();
+            DrawStick(next_fig_pix);
             break;
 
         case BLOCK:
-            DrawBlock();
+            DrawBlock(next_fig_pix);
+            break;
+
+        case FIGURE_RIGHT_L:
+            DrawFigureRightL(next_fig_pix);
             break;
 
         case FIGURE_LEFT_L:
-            DrawFigureLeftL();
+            DrawFigureLeftL(next_fig_pix);
+            break;
+
+        case FIGURE_RIGHT_Z:
+            DrawFigureRightZ(next_fig_pix);
+            break;
+
+        case FIGURE_LEFT_Z:
+            DrawFigureLeftZ(next_fig_pix);
+            break;
+
+        case FIGURE_T:
+            DrawFigureT(next_fig_pix);
             break;
     }
-
-    QPainter qp(game_window);
-
-    QPen pen;
-    pen.setColor(Qt::lightGray);
-    pen.setWidth(1);
-
-    qp.setPen(pen);
-
-    // Draw separator
-    qp.drawLine(FIELD_WIDTH, 0, FIELD_WIDTH, FIELD_HEIGHT);
-
-    // Draw figure box
-    QPoint lu(FIELD_WIDTH + INFO_FIELD_WIDTH/2 - TILE_SIZE*2.5f, TILE_SIZE*1.5f); // Left-Up
-    QPoint ru(FIELD_WIDTH + INFO_FIELD_WIDTH/2 + TILE_SIZE*2.5f, TILE_SIZE*1.5f); // Right-Up
-    QPoint rd(FIELD_WIDTH + INFO_FIELD_WIDTH/2 + TILE_SIZE*2.5f, TILE_SIZE*6.5f); // Right-Down
-    QPoint ld(FIELD_WIDTH + INFO_FIELD_WIDTH/2 - TILE_SIZE*2.5f, TILE_SIZE*6.5f); // Left-Down
-
-    qp.drawLine(lu, ld); // Left line
-    qp.drawLine(lu, ru); // Up line
-    qp.drawLine(ru, rd); // Right line
-    qp.drawLine(ld, rd); // Down line
 }
 
-void InfoField::DrawStick()
+void InfoField::DrawStick(QPixmap *next_fig_pix)
 {
-    QPoint spawn(FIELD_WIDTH + INFO_FIELD_WIDTH/2, TILE_SIZE*3.5);
+    QPoint spawn(TILE_SIZE*2, TILE_SIZE);
     QVector<Tile> figure_tiles;
 
     figure_tiles.append(*new Tile(spawn.x() - 2*TILE_SIZE, spawn.y(), TILE_SIZE, Qt::red));
@@ -56,7 +50,7 @@ void InfoField::DrawStick()
     figure_tiles.append(*new Tile(spawn.x(),               spawn.y(), TILE_SIZE, Qt::red));
     figure_tiles.append(*new Tile(spawn.x() + TILE_SIZE,   spawn.y(), TILE_SIZE, Qt::red));
 
-    QPainter qp(game_window);
+    QPainter qp(next_fig_pix);
 
     for (int i = 0; i < 4; ++i)
     {
@@ -69,9 +63,9 @@ void InfoField::DrawStick()
     }
 }
 
-void InfoField::DrawBlock()
+void InfoField::DrawBlock(QPixmap *next_fig_pix)
 {
-    QPoint spawn(FIELD_WIDTH + INFO_FIELD_WIDTH/2, TILE_SIZE*3);
+    QPoint spawn(TILE_SIZE*2, TILE_SIZE);
     QVector<Tile> figure_tiles;
 
     figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y(), TILE_SIZE, Qt::blue));
@@ -79,7 +73,7 @@ void InfoField::DrawBlock()
     figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y() + TILE_SIZE, TILE_SIZE, Qt::blue));
     figure_tiles.append(*new Tile(spawn.x(),             spawn.y() + TILE_SIZE, TILE_SIZE, Qt::blue));
 
-    QPainter qp(game_window);
+    QPainter qp(next_fig_pix);
 
     for (int i = 0; i < 4; ++i)
     {
@@ -92,9 +86,9 @@ void InfoField::DrawBlock()
     }
 }
 
-void InfoField::DrawFigureLeftL()
+void InfoField::DrawFigureRightL(QPixmap *next_fig_pix)
 {
-    QPoint spawn(FIELD_WIDTH + INFO_FIELD_WIDTH/2, TILE_SIZE*2.5f);
+    QPoint spawn(TILE_SIZE*2, TILE_SIZE);
     QVector<Tile> figure_tiles;
 
     figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y(), TILE_SIZE, Qt::yellow));
@@ -102,7 +96,99 @@ void InfoField::DrawFigureLeftL()
     figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y() + 2*TILE_SIZE, TILE_SIZE, Qt::yellow));
     figure_tiles.append(*new Tile(spawn.x(),             spawn.y() + 2*TILE_SIZE, TILE_SIZE, Qt::yellow));
 
-    QPainter qp(game_window);
+    QPainter qp(next_fig_pix);
+
+    for (int i = 0; i < 4; ++i)
+    {
+        qp.fillRect(figure_tiles[i].GetRect(), figure_tiles[i].GetColor());
+
+        QPen pen;
+        pen.setWidth(3);
+        qp.setPen(pen);
+        qp.drawRect(figure_tiles[i].GetRect());
+    }
+}
+
+void InfoField::DrawFigureLeftL(QPixmap *next_fig_pix)
+{
+    QPoint spawn(TILE_SIZE*2, TILE_SIZE);
+    QVector<Tile> figure_tiles;
+
+    figure_tiles.append(*new Tile(spawn.x(),             spawn.y(), TILE_SIZE, Qt::yellow));
+    figure_tiles.append(*new Tile(spawn.x(),             spawn.y() + TILE_SIZE, TILE_SIZE, Qt::yellow));
+    figure_tiles.append(*new Tile(spawn.x(),             spawn.y() + 2*TILE_SIZE, TILE_SIZE, Qt::yellow));
+    figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y() + 2*TILE_SIZE, TILE_SIZE, Qt::yellow));
+
+    QPainter qp(next_fig_pix);
+
+    for (int i = 0; i < 4; ++i)
+    {
+        qp.fillRect(figure_tiles[i].GetRect(), figure_tiles[i].GetColor());
+
+        QPen pen;
+        pen.setWidth(3);
+        qp.setPen(pen);
+        qp.drawRect(figure_tiles[i].GetRect());
+    }
+}
+
+void InfoField::DrawFigureLeftZ(QPixmap *next_fig_pix)
+{
+    QPoint spawn(TILE_SIZE*2, TILE_SIZE);
+    QVector<Tile> figure_tiles;
+
+    figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y(), TILE_SIZE, Qt::green));
+    figure_tiles.append(*new Tile(spawn.x(), spawn.y(), TILE_SIZE, Qt::green));
+    figure_tiles.append(*new Tile(spawn.x(), spawn.y() + TILE_SIZE, TILE_SIZE, Qt::green));
+    figure_tiles.append(*new Tile(spawn.x() + TILE_SIZE, spawn.y() + TILE_SIZE, TILE_SIZE, Qt::green));
+
+    QPainter qp(next_fig_pix);
+
+    for (int i = 0; i < 4; ++i)
+    {
+        qp.fillRect(figure_tiles[i].GetRect(), figure_tiles[i].GetColor());
+
+        QPen pen;
+        pen.setWidth(3);
+        qp.setPen(pen);
+        qp.drawRect(figure_tiles[i].GetRect());
+    }
+}
+
+void InfoField::DrawFigureRightZ(QPixmap *next_fig_pix)
+{
+    QPoint spawn(TILE_SIZE*2, TILE_SIZE);
+    QVector<Tile> figure_tiles;
+
+    figure_tiles.append(*new Tile(spawn.x(), spawn.y(), TILE_SIZE, Qt::green));
+    figure_tiles.append(*new Tile(spawn.x() + TILE_SIZE, spawn.y(), TILE_SIZE, Qt::green));
+    figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y() + TILE_SIZE, TILE_SIZE, Qt::green));
+    figure_tiles.append(*new Tile(spawn.x(), spawn.y() + TILE_SIZE, TILE_SIZE, Qt::green));
+
+    QPainter qp(next_fig_pix);
+
+    for (int i = 0; i < 4; ++i)
+    {
+        qp.fillRect(figure_tiles[i].GetRect(), figure_tiles[i].GetColor());
+
+        QPen pen;
+        pen.setWidth(3);
+        qp.setPen(pen);
+        qp.drawRect(figure_tiles[i].GetRect());
+    }
+}
+
+void InfoField::DrawFigureT(QPixmap *next_fig_pix)
+{
+    QPoint spawn(TILE_SIZE*2, TILE_SIZE);
+    QVector<Tile> figure_tiles;
+
+    figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y(), TILE_SIZE, Qt::cyan));
+    figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y() + TILE_SIZE, TILE_SIZE, Qt::cyan));
+    figure_tiles.append(*new Tile(spawn.x() - TILE_SIZE, spawn.y() + 2*TILE_SIZE, TILE_SIZE, Qt::cyan));
+    figure_tiles.append(*new Tile(spawn.x(),             spawn.y() + TILE_SIZE, TILE_SIZE, Qt::cyan));
+
+    QPainter qp(next_fig_pix);
 
     for (int i = 0; i < 4; ++i)
     {

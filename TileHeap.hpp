@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QMainWindow>
 #include <QPainter>
+#include <QPixmap>
 
 #include "Tile.hpp"
 #include "Figure.hpp"
@@ -18,7 +19,7 @@ public:
     TileHeap(QMainWindow *gameWindow);
     ~TileHeap();
     void SetFigure(Figure figure);
-    void Draw();
+    void Draw(QPixmap *field_pix);
     void CheckLines();
     int GetScore();
 

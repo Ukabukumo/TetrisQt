@@ -12,11 +12,18 @@
 #include <QPushButton>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPixmap>
+#include <QWidget>
+#include <QGraphicsPixmapItem>
 
 #include "Tile.hpp"
 #include "Stick.hpp"
 #include "Block.hpp"
+#include "FigureRightL.hpp"
 #include "FigureLeftL.hpp"
+#include "FigureRightZ.hpp"
+#include "FigureLeftZ.hpp"
+#include "FigureT.hpp"
 #include "Figure.hpp"
 #include "TileHeap.hpp"
 #include "GlobalParams.h"
@@ -37,7 +44,7 @@ private:
     TileHeap *tile_heap;
     Figure *figure;
     FigureType figure_type;
-    FigureType next_figure = static_cast<FigureType>(QRandomGenerator::global()->bounded(3));;
+    FigureType next_figure = static_cast<FigureType>(QRandomGenerator::global()->bounded(nTypes));
     InfoField *info_field;
 
     QDialog *menu;
@@ -48,6 +55,11 @@ private:
 
     QGraphicsScene fieldScene;
     QGraphicsView fieldView;
+    QGraphicsScene next_fig_scene;
+    QGraphicsView next_fig_view;
+    QGraphicsPixmapItem *field;
+    QGraphicsPixmapItem *next_fig_field;
+    QGraphicsPixmapItem *score_field;
 
     int game_timer_id;
     bool in_game = false;
